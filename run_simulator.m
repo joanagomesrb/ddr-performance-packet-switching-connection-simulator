@@ -1,7 +1,7 @@
 % INPUT PARAMETERS:
-lambda = 100; %  lambda - packet rate (packets/sec)
-C = 2;        %  C      - link bandwidth (Mbps)
-f = 100000;   %  f      - queue size (Bytes)
+lambda = 500; %  lambda - packet rate (packets/sec)
+C = 10;        %  C      - link bandwidth (Mbps)
+f = 10000;   %  f      - queue size (Bytes)
 P = 1000;     %  P      - number of packets (stopping criterium)
 
 % run simulator parameters
@@ -20,27 +20,26 @@ for i = 1:n_times
     result_TT(i) = TT;
 end
 
-result_PL
-
 % 90% confidence interval PL
 alfa = 0.1;
 media_PL = mean(result_PL);
-term_PL = norminv(1-alfa/2)*sqrt(var(result_PL)/times);
+%media_PL = sum(result_PL)/n_times
+term_PL = norminv(1-alfa/2)*sqrt(var(result_PL)/n_times);
 % APD
 alfa = 0.1;
 media_APD = mean(result_APD);
-term_APD = norminv(1-alfa/2)*sqrt(var(result_APD)/times);
+term_APD = norminv(1-alfa/2)*sqrt(var(result_APD)/n_times);
 % MP
 alfa = 0.1;
 media_MP = mean(result_MP);
-term_MP = norminv(1-alfa/2)*sqrt(var(result_MP)/times);
+term_MP = norminv(1-alfa/2)*sqrt(var(result_MP)/n_times);
 % TT
 alfa = 0.1;
 media_TT = mean(result_TT);
-term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/times);
+term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 
 % print results
-fprintf('result PL = %.3e +- %.3e\n', media_PL, term_PL)
-fprintf('result APL = %.3e +- %.3e\n', media_APL, term_APL)
-fprintf('result MP = %.3e +- %.3e\n', media_MP, term_MP)
-fprintf('result TT = %.3e +- %.3e\n', media_TT, term_TT)
+fprintf('result PL = %6.3f ± %6.3f\n', media_PL, term_PL)
+fprintf('result APL = %6.3f ± %6.3f\n', media_APD, term_APD)
+fprintf('result MP = %6.3f ± %6.3f\n', media_MP, term_MP)
+fprintf('result TT = %6.3f ± %6.3f\n', media_TT, term_TT)
