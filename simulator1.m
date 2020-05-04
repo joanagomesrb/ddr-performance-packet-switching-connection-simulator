@@ -99,22 +99,29 @@ function W = MM1DelayCalc(lambda, C)
     bpp = 8;
     n = 65:1517;
     sum = 0;
-    for i = 1:size(n)
-       sum = sum + n(i)*(0.62/(1518-64));
+    for i = 1:size(n,2)
+       sum = sum + (n(i)+64)*(0.62/(1517-65));
     end
     u = (C * 10^6)/(((64*0.16 + 0.22*1518 + sum) ) * bpp);
     W = 1/(u-lambda);
 end
 
-function WQ =  MG1DelayCacl(lambda, C)
+function W =  MG1DelayCacl(lambda, C)
+    %n = 1452;
+    %n = fixed.Interval(65,1517);
     n = 65:1517;
     sum = 0;
-    for i = 1:size(n)
-       sum = sum + n(i)*(0.62/(1518-64));
+    for i = 1:size(n,2)
+       %sum = 65*(0.62/(1517-65));
+       sum = sum + (n(i)+64)*(0.62/(1517-65));
     end
     bpp = 8;   
     u = (C * 10^6)/(((64*0.16 + 0.22*1518 + sum) ) * bpp);
+    %weighted_avg = 0.34*1453/0.62;
+    %disp(weighted_avg);
+    %u = (C * 10^6)/(weighted_avg * bpp);
+    
     ES = 1/u;
     ES2 = 2/u^2;
-    WQ = (lambda * ES2)/2*(1-lambda * ES);
+    W = (lambda * ES2)/2*(1-lambda * ES)+ES;
 end
