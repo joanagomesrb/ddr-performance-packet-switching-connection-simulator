@@ -22,8 +22,9 @@ for i = 1:n_times
     result_APD(i) = APD;
     result_MP(i) = MPD;
     result_TT(i) = TT;
-    result_WQ_mg1(i) = MG1DelayCacl(lambda, C, f);
-    result_W_mm1(i) = MM1DelayCalc(lambda, C, f);
+    [W, WQ] = MM1DelayCalc(lambda, C, f);
+    result_WQ_mg1(i) = W;
+    result_W_mm1(i) = WQ;
     result_WQ_mm1(i) = MM1DelayCalc(lambda, C, f);
 end
 
