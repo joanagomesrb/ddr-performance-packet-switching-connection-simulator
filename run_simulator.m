@@ -10,6 +10,8 @@ result_PL = zeros(1, n_times);
 result_APD = zeros(1, n_times);
 result_MP = zeros(1, n_times);
 result_TT = zeros(1, n_times);
+result_MM1 = zeros(1, n_times);
+result_MG1 = zeros(1, n_times);
 
 result_WQ_mg1 = zeros(1, n_times);
 result_W_mm1 = zeros(1, n_times);
@@ -17,14 +19,13 @@ result_WQ_mm1 = zeros(1, n_times);
 
 % actual run simulator n times
 for i = 1:n_times
-    [PL , APD , MPD , TT] = simulator1(lambda,C,f,P);
+    [PL , APD , MPD , TT, DelayMM1, DelayMG1] = simulator1(lambda,C,f,P);
     result_PL(i) = PL;
     result_APD(i) = APD;
     result_MP(i) = MPD;
     result_TT(i) = TT;
-    result_WQ_mg1(i) = MG1DelayCacl(lambda, C, f);
-    result_W_mm1(i) = MM1DelayCalc(lambda, C, f);
-    result_WQ_mm1(i) = MM1DelayCalc(lambda, C, f);
+    result_WQ_mg1(i) = DelayMG1;
+    result_W_mm1(i) = DelayMM1;
 end
 
 % 90% confidence interval PL
@@ -63,30 +64,4 @@ fprintf('result TT = %6.3f +/- %6.3f\n', media_TT, term_TT)
 fprintf('result WQ MG1 = %6.3f +/- %6.3f\n', media_wq, term_wq)
 fprintf('result WQ MM1 = %6.3f +/- %6.3f\n', media_wq_mm1, term_wq_mm1)
 fprintf('result W MM1 = %6.3f +/- %6.3f\n', media_w_mm1, term_w_mm1)
-
-function [W, WQ] = MM1DelayCalc(lambda, C, f)
-    bpp = 8;    
-    u = (C * 10^6)/(f * bpp);
-    W = 1/(u-lambda);
-    WQ = W - 1/u;
-end
-
-function WQ =  MG1DelayCacl(lambda, C, f)
-    bpp = 8;    
-    u = (C * 10^6)/(GeneratePacketSize() * bpp);
-    ES = 1/u;
-    ES2 = 2/u^2;
-    WQ = (lambda * ES2)/2*(1-lambda * ES);
-end
-
-function out= GeneratePacketSize()
-    aux= rand();
-    if aux <= 0.16
-        out= 64;
-    elseif aux >= 0.78
-        out= 1518;
-    else
-        out = randi([65 1517]);
-    end
-end
 

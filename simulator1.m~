@@ -95,15 +95,16 @@ function out= GeneratePacketSize()
 end
 
 %Alinea e)
-function W = MM1DelayCalc(lambda, C)
+function [W, WQ] = MM1DelayCalc(lambda, C, f)
     bpp = 8;    
-    u = (C * 10^6)/(((64*0.16 + 0.22*1518 + 0.62*randi([65 1517])) / 3 ) * bpp);
+    u = (C * 10^6)/( (64*0.16 + 0.22*1518 + 0.78*1517) / 3 )* bpp);
     W = 1/(u-lambda);
+    WQ = W - 1/u;
 end
 
 function WQ =  MG1DelayCacl(lambda, C)
     bpp = 8;    
-    u = (C * 10^6)/(((64*0.16 + 0.22*1518 + 0.62*randi([65 1517])) / 3 ) * bpp);
+    u = (C * 10^6)/(GeneratePacketSize() * bpp);
     ES = 1/u;
     ES2 = 2/u^2;
     WQ = (lambda * ES2)/2*(1-lambda * ES);
