@@ -1,8 +1,8 @@
 % INPUT PARAMETERS:
-lambda = 500; %  lambda - packet rate (packets/sec)
+lambda = 1000; %  lambda - packet rate (packets/sec)
 C = 10;        %  C      - link bandwidth (Mbps)
 f = 10000;   %  f      - queue size (Bytes)
-P = 1000;     %  P      - number of packets (stopping criterium)
+P = 100000;     %  P      - number of packets (stopping criterium)
 
 % run simulator parameters
 n_times = 10;
@@ -13,7 +13,7 @@ result_TT = zeros(1, n_times);
 
 % actual run simulator n times
 for i = 1:n_times
-    [PL , APD , MPD , TT] = Simulator1(lambda,C,f,P);
+    [PL , APD , MPD , TT] = simulator1(lambda,C,f,P);
     result_PL(i) = PL;
     result_APD(i) = APD;
     result_MP(i) = MPD;
@@ -39,7 +39,7 @@ media_TT = mean(result_TT);
 term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 
 % print results
-fprintf('result PL = %6.3f ± %6.3f\n', media_PL, term_PL)
-fprintf('result APL = %6.3f ± %6.3f\n', media_APD, term_APD)
-fprintf('result MP = %6.3f ± %6.3f\n', media_MP, term_MP)
-fprintf('result TT = %6.3f ± %6.3f\n', media_TT, term_TT)
+fprintf('result PL = %6.3f ï¿½ %6.3f\n', media_PL, term_PL)
+fprintf('result APL = %6.3f ï¿½ %6.3f\n', media_APD, term_APD)
+fprintf('result MP = %6.3f ï¿½ %6.3f\n', media_MP, term_MP)
+fprintf('result TT = %6.3f ï¿½ %6.3f\n', media_TT, term_TT)

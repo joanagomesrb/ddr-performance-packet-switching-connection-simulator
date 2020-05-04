@@ -1,4 +1,4 @@
-function [PL , APD , MPD , TT] = Simulator1(lambda,C,f,P)
+function [PL , APD , MPD , TT] = simulator1(lambda,C,f,P)
 % INPUT PARAMETERS:
 %  lambda - packet rate (packets/sec)
 %  C      - link bandwidth (Mbps)
@@ -91,4 +91,20 @@ function out= GeneratePacketSize()
     else
         out = randi([65 1517]);
     end
+end
+
+%Alinea e)
+function WQ=MM1DelayCalc(lambda, C, f)
+    bpp = 8;    
+    u = (C * 10^6)/(f * bpp);
+    W = 1/(u-lambda);
+    WQ = W - 1/u;
+end
+
+function WQ= MG1DelayCacl(lambda, C, f)
+    bpp = 8;    
+    u = (C * 10^6)/(f * bpp);
+    ES = 1/u;
+    ES2 = 2/u^2;
+    WQ = (lambda * ES2)/2*(1-lambda * ES);
 end
