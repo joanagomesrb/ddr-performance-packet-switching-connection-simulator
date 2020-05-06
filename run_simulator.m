@@ -1,8 +1,11 @@
 % INPUT PARAMETERS:
-lambda = 1000; %  lambda - packet rate (packets/sec)
-C = 10;        %  C      - link bandwidth (Mbps)
-f = 10000;     %  f      - queue size (Bytes)
-P = 1000;    %  P      - number of packets (stopping criterium)
+lambda = 50; %  lambda - packet rate (packets/sec)
+C= 2;
+f= 10000;
+P= 100000;
+%C = 2;        %  C      - link bandwidth (Mbps)
+%f = 100000;     %  f      - queue size (Bytes)
+%P = 100000   ;    %  P      - number of packets (stopping criterium)
 
 % run simulator parameters
 n_times = 10;
@@ -45,18 +48,15 @@ alfa = 0.1;
 media_TT = mean(result_TT);
 term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 % MG1
-alfa = 0.1;
-media_w = mean(result_W_mg1);
-term_w = norminv(1-alfa/2)*sqrt(var(result_W_mg1)/n_times);
-%MM1 W
-media_w_mm1 = mean(result_W_mm1);
-term_w_mm1 = norminv(1-alfa/2)*sqrt(var(result_W_mm1)/n_times);
+media_mg1 = mean(result_W_mg1);
+% MM1
+media_mm1 = mean(result_W_mm1);
 
 % print results
 fprintf('result PL = %6.3f +/- %6.3f\n', media_PL, term_PL)
 fprintf('result APL = %6.3f +/- %6.3f\n', media_APD, term_APD)
 fprintf('result MP = %6.3f +/- %6.3f\n', media_MP, term_MP)
 fprintf('result TT = %6.3f +/- %6.3f\n', media_TT, term_TT)
-fprintf('result W MG1 = %6.3f +/- %6.3f\n', media_w, term_w)
-fprintf('result W MM1 = %6.3f +/- %6.3f\n', media_w_mm1, term_w_mm1)
+fprintf('result W MG1 = %6.3f \n', media_mg1)
+fprintf('result W MM1 = %6.3f \n',media_mm1)
 
