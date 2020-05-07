@@ -100,21 +100,25 @@ function W = MM1DelayCalc(lambda, C)
     n = 65:1517;
     sum = 0;
     for i = 1:size(n,2)
-       sum = sum + (n(i)+64)*(0.62/(1518-65));
+        sum = sum + (n(i))*(0.62/(1518-65));
     end
-    u = (C * 10^6)/(((64*0.16 + 0.22*1518 + sum) ) * bpp);
+    u = (C * 10^6)/((64*0.16 + 0.22*1518 + sum)  * bpp);
     W = (1/(u-lambda))*1000;
+    fclose(file);
 end
 
 function W =  MG1DelayCacl(lambda, C)
     n = 65:1517;
     sum = 0;
     for i = 1:size(n,2)
-       sum = sum + (n(i)+64)*(0.62/(1517-65+1));
+       sum = sum + (n(i)+64)*(0.62/(1518-65));
     end
     bpp = 8;   
-    u = (C * 10^6)/(((64*0.16 + 0.22*1518 + sum) ) * bpp);    
+    u = (C * 10^6)/((64*0.16 + 0.22*1518 + sum) * bpp);    
     ES = 1/u;
-    ES2 = 1/u^2;
+    ES2_64 = (64/(C*10^6))^2 * 0.16; 
+    ES2_int = ((1518-65)/(C*10^6))^2 * (0.62/(1518-65));
+    ES2_1518 = ((1518/(C*10^6))^2) * 0.22;
+    ES2 = ES2_64 + ES2_int + ES2_1518;
     W = (((lambda * ES2)/2*(1-lambda * ES))+ES)*1000;
 end

@@ -6,16 +6,16 @@ P= 100000;
 % alinea f e g
 lambda= [50, 100, 150, 200, 250, 270, 290, 310, 330, 350, 400, 450, 500];
 
-n_cases = 13;
+n_cases = 10;
 
-fileID = fopen('alinea_g.txt', 'w');
+fileID = fopen('alinea_g_final.txt', 'w');
 
-
-for i = 1:n_cases
-	for j = lambda
-        disp(j)
+for j = lambda
+    disp(j)
+    %for i = 1:n_cases
+       
 		[PL , APD , MPD , TT, DelayMM1, DelayMG1] = run2_simulator1(j,C,f,P, fileID);
-    end
+    %end
 end
 
 fclose(fileID);

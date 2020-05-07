@@ -33,9 +33,9 @@ function [PL , APD , MPD , TT, DelayMM1, DelayMG1] = run2_simulator1(lambda,C,f,
     media_TT = mean(result_TT);
     term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 
-    fprintf(fileID, 'result PL  _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_PL, term_PL)
-    fprintf(fileID, 'result APL _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_APD, term_APD)
-    fprintf(fileID, 'result MP  _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_MP, term_MP)
-    fprintf(fileID, 'result TT  _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_TT, term_TT)
+    fprintf(fileID, 'result PL  _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_PL, term_PL);
+    fprintf(fileID, 'result APL _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_APD, term_APD);
+    fprintf(fileID, 'result MP  _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_MP, term_MP);
+    fprintf(fileID, 'result TT  _%4.4f_ = %6.3f +/- %6.3f\n', lambda, media_TT, term_TT);
 
 end
