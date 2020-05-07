@@ -104,7 +104,6 @@ function W = MM1DelayCalc(lambda, C)
     end
     u = (C * 10^6)/((64*0.16 + 0.22*1518 + sum)  * bpp);
     W = (1/(u-lambda))*1000;
-    fclose(file);
 end
 
 function W =  MG1DelayCacl(lambda, C)
