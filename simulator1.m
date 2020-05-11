@@ -99,27 +99,33 @@ function W = MM1DelayCalc(lambda, C)
     bpp = 8;
     n = 65:1517;
     sum = 0;
-    sum = ((65+1517)/2);
-    u = (C * 10^6)/((64*0.16 + 0.22*1518 + sum*0.62)  * bpp);
+    for i = 1:size(n,2)
+        sum = sum + (n(i))*(0.62/(1518-65));
+    end
+    u = (C * 10^6)/((64*0.16 + 0.22*1518 + sum)  * bpp);
     W = (1/(u-lambda))*1000;
 end
 
 function W =  MG1DelayCacl(lambda, C)
-    bpp = 8; 
-    
-    % mean of interval (itv) 65 - 1517
-    itv = (1517+65)/2;
-    
-    % probability of each interval
+    bpp = 8;   
+    n = 65:1517;
+    %itv = (1517+65)/2;
+    sum = 0;
+    for i = 1:size(n,2)
+        sum = sum + (n(i)*bpp)*(0.62/(1518-65));
+    end
+    disp(sum)
+    sum2 = 0;
+    for i = 1:size(n,2)
+        sum2 = sum2 + ((n(i)*bpp)/(C*10^6))^2*(0.62/(1518-65));
+    end
     p_64 = 0.16;
-    p_itv = 1-0.16-0.22;
     p_1518 = 0.22;
    
     % ES = tempo * prob
-    ES = (64*bpp/(C*10^6))*p_64 + (3 + (1518*bpp/(C*10^6))*p_1518;   
-    % ES2 = tempo^2 * prob
-    ES2 = (64*bpp/(C*10^6))^2 * p_64 + ((itv*bpp)/(C*10^6))^2 * p_itv + (((1518*bpp/(C*10^6))))^2 * p_1518;  
+    ES = (64*bpp/(C*10^6))*p_64 + sum/(C*10^6) + (1518*bpp/(C*10^6))*p_1518;   
+    % tempo^2 * prob
+    ES2 = ((64*bpp/(C*10^6))^2 * p_64) + sum2 +  ((1518*bpp/(C*10^6)))^2 * 0.22;  
     
-    % formula
-    W = ((lambda * ES2)/(2*(1-lambda * ES))+ES)*1000;
+    W = (((lambda * ES2)/2*(1-lambda * ES))+ES)*1000;
 end
