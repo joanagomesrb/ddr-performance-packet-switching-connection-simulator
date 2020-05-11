@@ -1,6 +1,6 @@
 % INPUT PARAMETERS:
-lambda = 330; %  lambda - packet rate (packets/sec)
-C = 2;        %  C      - link bandwidth (Mbps)
+lambda = 2500; %  lambda - packet rate (packets/sec)
+C = 10;        %  C      - link bandwidth (Mbps)
 f = 100000;     %  f      - queue size (Bytes)
 P = 100000   ;    %  P      - number of packets (stopping criterium)
 
