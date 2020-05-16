@@ -74,7 +74,7 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
             end
             if Type == VOIP
                 TotalPacketsVoip= TotalPacketsVoip+1;
-                EventList = [EventList; ARRIVAL , Clock + 0.02*rand() , GeneratePacketSizeVoip() , 0, Type];
+                    EventList = [EventList; ARRIVAL, Clock + 0.016 + 0.008*rand(), GeneratePacketSizeVoip(), 0 , Type];
                 if State==0
                     State= 1;
                     EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
