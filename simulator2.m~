@@ -47,7 +47,7 @@ for i=1:n
 end 
 
 %Similation loop:
-while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping criterium
+while TransmittedPackets + TransmittedPacketsVoip <P               % Stopping criterium
     EventList= sortrows(EventList,2);    % Order EentList by time
     Event= EventList(1,1);               % Get first event and 
     Clock= EventList(1,2);               %   and
@@ -62,7 +62,7 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
                 EventList = [EventList; ARRIVAL , Clock + exprnd(1/lambda) , GeneratePacketSize() , 0, Type];
                 if State==0
                     State= 1;
-                    EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
+                    EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, DATA];
                 else
                     if QueueOccupation + PacketSize <= f
                         Queue= [Queue;PacketSize , Clock, Type];
@@ -74,10 +74,10 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
             end
             if Type == VOIP
                 TotalPacketsVoip= TotalPacketsVoip+1;
-                EventList = [EventList; ARRIVAL , Clock + 0.02*rand() , GeneratePacketSizeVoip() , 0, Type];
+                EventList = [EventList; ARRIVAL , Clock + exprnd(1/lambda) , GeneratePacketSizeVoip() , 0, VOIP];
                 if State==0
                     State= 1;
-                    EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
+                    EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, VOIP];
                 else
                     if QueueOccupation + PacketSize <= f
                         Queue= [Queue;PacketSize , Clock, Type];
