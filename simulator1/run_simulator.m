@@ -1,8 +1,8 @@
 % INPUT PARAMETERS:
-lambda = 2500; %  lambda - packet rate (packets/sec)
+lambda = 1000; %  lambda - packet rate (packets/sec)
 C = 10;        %  C      - link bandwidth (Mbps)
-f = 100000;     %  f      - queue size (Bytes)
-P = 100000   ;    %  P      - number of packets (stopping criterium)
+f = 100000 ;     %  f      - queue size (Bytes)
+P = 1000 ;    %  P      - number of packets (stopping criterium)
 
 % run simulator parameters
 n_times = 10;

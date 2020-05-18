@@ -6,10 +6,13 @@ function [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator2(lambda,C,f
 %  P      - number of packets (stopping criterium)
 %  n      - number of VoIP flows
 % OUTPUT PARAMETERS:
-%  PL   - packet loss (%)
-%  APD  - average packet delay (milliseconds)
-%  MPD  - maximum packet delay (milliseconds)
-%  TT   - transmitted throughput (Mbps)
+%  PL     - packet loss (%)
+%  APD    - average packet delay (milliseconds)
+%  MPD    - maximum packet delay (milliseconds)
+%  TT     - transmitted throughput (Mbps)
+% PLvoip  - packet loss VOIP
+% APDvoip - average packet delay VOIP
+% MPDvoip - maximum packet delay VOIP
 
 %Events:
 ARRIVAL= 0;       % Arrival of a packet            
@@ -122,12 +125,13 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
 end
 %Performance parameters determination:
 PL= 100*LostPackets/TotalPackets;      % in %
-PLvoip = 100*LostPacketsVoip/TotalPacketsVoip;
 APD= 1000*Delays/TransmittedPackets;   % in milliseconds
-APDvoip = 1000 *DelaysVoip/TransmittedPacketsVoip;
 MPD= 1000*MaxDelay;                    % in milliseconds
-MPDvoip = 1000* MaxDelayVoip;
 TT= 10^(-6)*TransmittedBytes*8/Clock;  % in Mbps
+
+PLvoip = 100*LostPacketsVoip/TotalPacketsVoip; % packet loss VOIP
+APDvoip = 1000 *DelaysVoip/TransmittedPacketsVoip; % average packet delay VOIP
+MPDvoip = 1000* MaxDelayVoip; % maximum packet delay VOIP
 end
 
 function out= GeneratePacketSize()
