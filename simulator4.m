@@ -1,4 +1,4 @@
-function [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator3(lambda,C,f,P, n)
+function [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator4(lambda,C,f,P, n, r)
 % INPUT PARAMETERS:
 %  lambda - packet rate (packets/sec)
 %  C      - link bandwidth (Mbps)
@@ -66,7 +66,7 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
                     State= 1;
                     EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
                 else
-                    if QueueOccupation + QueueOccupationVoIP + PacketSize <= f
+                    if QueueOccupation + QueueOccupationVoIP + PacketSize <= (f * r/100)
                         Queue= [Queue;PacketSize , Clock, Type];
                         QueueOccupation= QueueOccupation + PacketSize;
                     else
