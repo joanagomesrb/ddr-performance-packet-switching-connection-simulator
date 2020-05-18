@@ -1,10 +1,10 @@
 % INPUT PARAMETERS:
-lambda = 200; %  lambda - packet rate (packets/sec)
-C = 2;        %  C      - link bandwidth (Mbps)
+lambda = 1000; %  lambda - packet rate (packets/sec)
+C = 10;        %  C      - link bandwidth (Mbps)
 f = 10000;     %  f      - queue size (Bytes)
 P = 100000;    %  P      - number of packets (stopping criterium)
-nvoip = 15;
-% run simulator parameters
+nvoip = 75;    % number of voip flows 
+
 %DATA results initialization
 n_times = 10;
 result_PL = zeros(1, n_times);
@@ -15,7 +15,7 @@ result_TT = zeros(1, n_times);
 %VOIP Results inititialization
 result_PLvoip = zeros(1, n_times);
 result_APDvoip = zeros(1, n_times);
-result_MPvoip = zeros(1, n_times);
+result_MPDvoip = zeros(1, n_times);
 
 % actual run simulator n times
 for i = 1:n_times
@@ -25,9 +25,9 @@ for i = 1:n_times
     result_MP(i) = MPD;
     result_TT(i) = TT;
     
-    result_PLvoip = PLvoip;
-    result_APDvoip = APDvoip;
-    result_MPvoip = MPDvoip;
+    result_PLvoip(i) = PLvoip;
+    result_APDvoip(i) = APDvoip;
+    result_MPDvoip(i) = MPDvoip;
 end
 
 % 90% confidence interval PL
@@ -52,19 +52,17 @@ media_APDvoip = mean(result_APDvoip);
 term_APDvoip = norminv(1-alfa/2)*sqrt(var(result_APDvoip)/n_times);
 % MPvoip
 alfa = 0.1;
-media_MPvoip = mean(result_MPvoip);
-term_MPvoip = norminv(1-alfa/2)*sqrt(var(result_MPvoip)/n_times);
+media_MPvoip = mean(result_MPDvoip);
+term_MPvoip = norminv(1-alfa/2)*sqrt(var(result_MPDvoip)/n_times);
 % TT
 alfa = 0.1;
 media_TT = mean(result_TT);
 term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 
 % print results
-fprintf('result PL = %6.3f +/- %6.3f\n', media_PL, term_PL)
-fprintf('result APL = %6.3f +/- %6.3f\n', media_APD, term_APD)
-fprintf('result MP = %6.3f +/- %6.3f\n', media_MP, term_MP)
+disp('DATA / VOIP')
+fprintf('result PL = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n ', media_PL, term_PL, media_PLvoip, term_PLvoip)
+fprintf('result APL = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n', media_APD, term_APD, media_APDvoip, term_APDvoip)
+fprintf('result MP = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n', media_MP, term_MP, media_MPvoip, term_MPvoip)
 fprintf('result TT = %6.3f +/- %6.3f\n', media_TT, term_TT)
-fprintf('result PLvoip = %6.3f +/- %6.3f\n', media_PLvoip, term_PLvoip)
-fprintf('result APDvoip = %6.3f +/- %6.3f\n', media_APDvoip, term_APDvoip)
-fprintf('result MPvoip = %6.3f +/- %6.3f\n', media_MPvoip, term_MPvoip)
 
