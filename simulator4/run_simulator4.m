@@ -1,12 +1,14 @@
 % INPUT PARAMETERS:
-lambda = 1000; %  lambda - packet rate (packets/sec)
-C = ;        %  C      - link bandwidth (Mbps)
-f = 10000;     %  f      - queue size (Bytes)
-P = 100000;    %  P      - number of packets (stopping criterium)
-nvoip = 15;
+lambda = 200; %  lambda - packet rate (packets/sec)
+C = 2;        %  C      - link bandwidth (Mbps)
+f = 10000 ;     %  f      - queue size (Bytes)
+P = 100000 ;    %  P      - number of packets (stopping criterium)
+nvoip = 5;
+r = 25;
+
 % run simulator parameters
-%DATA results initialization
 n_times = 10;
+%DATA results initialization
 result_PL = zeros(1, n_times);
 result_APD = zeros(1, n_times);
 result_MP = zeros(1, n_times);
@@ -19,7 +21,7 @@ result_MPvoip = zeros(1, n_times);
 
 % actual run simulator n times
 for i = 1:n_times
-    [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator3(lambda,C,f,P,nvoip);
+    [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator4(lambda,C,f,P,nvoip, r);
     result_PL(i) = PL;
     result_APD(i) = APD;
     result_MP(i) = MPD;
@@ -60,11 +62,7 @@ media_TT = mean(result_TT);
 term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 
 % print results
-fprintf('result PL = %6.3f +/- %6.3f\n', media_PL, term_PL)
-fprintf('result APL = %6.3f +/- %6.3f\n', media_APD, term_APD)
-fprintf('result MP = %6.3f +/- %6.3f\n', media_MP, term_MP)
+fprintf('result PL and PLvoip = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n', media_PL, term_PL, media_PLvoip, term_PLvoip)
+fprintf('result APD and APDvoip = %6.3f +/- %6.3f /  %6.3f +/- %6.3f\n', media_APD, term_APD, media_APDvoip, term_APDvoip)
+fprintf('result MP and MPvoip = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n', media_MP, term_MP, media_MPvoip, term_MPvoip)
 fprintf('result TT = %6.3f +/- %6.3f\n', media_TT, term_TT)
-fprintf('result PLvoip = %6.3f +/- %6.3f\n', media_PLvoip, term_PLvoip)
-fprintf('result APDvoip = %6.3f +/- %6.3f\n', media_APDvoip, term_APDvoip)
-fprintf('result MPvoip = %6.3f +/- %6.3f\n', media_MPvoip, term_MPvoip)
-

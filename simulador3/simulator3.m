@@ -67,7 +67,7 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
                     EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
                 else
                     if QueueOccupation + QueueOccupationVoIP + PacketSize <= f
-                        Queue= [Queue;PacketSize , Clock, Type];
+                        Queue = [Queue;PacketSize , Clock, Type];
                         QueueOccupation= QueueOccupation + PacketSize;
                     else
                         LostPackets= LostPackets + 1;
@@ -75,15 +75,15 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
                 end
             end
             if Type == VOIP
-                TotalPacketsVoip= TotalPacketsVoip+1;
+                TotalPacketsVoip = TotalPacketsVoip+1;
                     EventList = [EventList; ARRIVAL, Clock + 0.016 + 0.008*rand(), GeneratePacketSizeVoip(), 0 , Type];
                 if State==0
                     State= 1;
                     EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
                 else
                     if QueueOccupation + QueueOccupationVoIP + PacketSize <= f
-                        QueueVoIP= [QueueVoIP;PacketSize , Clock, Type];
-                        QueueOccupationVoIP= QueueOccupationVoIP + PacketSize;
+                        QueueVoIP = [QueueVoIP;PacketSize , Clock, Type];
+                        QueueOccupationVoIP = QueueOccupationVoIP + PacketSize;
                     else
                         LostPacketsVoip= LostPacketsVoip + 1;
                     end
@@ -99,13 +99,13 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
                 TransmittedPackets= TransmittedPackets + 1;
                 if QueueOccupationVoIP > 0
                     EventList = [EventList; DEPARTURE , Clock + 8*QueueVoIP(1,1)/(C*10^6) , QueueVoIP(1,1) , QueueVoIP(1,2), QueueVoIP(1,3)];
-                    QueueOccupationVoIP= QueueOccupationVoIP - QueueVoIP(1,1);
-                    QueueVoIP(1,:)= [];
+                    QueueOccupationVoIP = QueueOccupationVoIP - QueueVoIP(1,1);
+                    QueueVoIP(1,:) = [];
                 else
                     if QueueOccupation > 0
                     EventList = [EventList; DEPARTURE , Clock + 8*Queue(1,1)/(C*10^6) , Queue(1,1) , Queue(1,2), Queue(1,3)];
-                    QueueOccupation= QueueOccupation - Queue(1,1);
-                    Queue(1,:)= [];    
+                    QueueOccupation = QueueOccupation - Queue(1,1);
+                    Queue(1,:) = [];    
                     else
                         State= 0;
                     end

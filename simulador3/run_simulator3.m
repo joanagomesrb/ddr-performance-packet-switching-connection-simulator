@@ -1,9 +1,9 @@
 % INPUT PARAMETERS:
-lambda = 200; %  lambda - packet rate (packets/sec)
-C = 2;        %  C      - link bandwidth (Mbps)
-f = 100000;     %  f      - queue size (Bytes)
-P = 100000;    %  P      - number of packets (stopping criterium)
-nvoip = 15;
+lambda = 1000; %  lambda - packet rate (packets/sec)
+C = 10;        %  C      - link bandwidth (Mbps)
+f = 10000;     %  f      - queue size (Bytes)
+P = 100000 ;    %  P      - number of packets (stopping criterium)
+nvoip = 75;
 % run simulator parameters
 %DATA results initialization
 n_times = 10;
@@ -19,15 +19,15 @@ result_MPvoip = zeros(1, n_times);
 
 % actual run simulator n times
 for i = 1:n_times
-    [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator2(lambda,C,f,P,nvoip);
+    [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip] = simulator3(lambda,C,f,P,nvoip);
     result_PL(i) = PL;
     result_APD(i) = APD;
     result_MP(i) = MPD;
     result_TT(i) = TT;
     
-    result_PLvoip(i) = PLvoip;
-    result_APDvoip(i) = APDvoip;
-    result_MPvoip(i) = MPDvoip;
+    result_PLvoip = PLvoip;
+    result_APDvoip = APDvoip;
+    result_MPvoip = MPDvoip;
 end
 
 % 90% confidence interval PL
