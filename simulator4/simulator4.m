@@ -66,9 +66,9 @@ while (TransmittedPackets + TransmittedPacketsVoip) < P               % Stopping
                     State= 1;
                     EventList = [EventList; DEPARTURE , Clock + 8*PacketSize/(C*10^6) , PacketSize , Clock, Type];
                 else
-                    if QueueOccupation + QueueOccupationVoIP + PacketSize <= (f * r/100)
-                        Queue= [Queue;PacketSize , Clock, Type];
-                        QueueOccupation= QueueOccupation + PacketSize;
+                    if QueueOccupation + QueueOccupationVoIP <= (f * r/100) && QueueOccupation + QueueOccupationVoIP + PacketSize 
+                        Queue = [Queue;PacketSize , Clock, Type];
+                        QueueOccupation = QueueOccupation + PacketSize;
                     else
                         LostPackets= LostPackets + 1;
                     end

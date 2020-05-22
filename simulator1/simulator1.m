@@ -80,7 +80,7 @@ APD= 1000*Delays/TransmittedPackets;   % in milliseconds
 MPD= 1000*MaxDelay;                    % in milliseconds
 TT= 10^(-6)*TransmittedBytes*8/Clock;  % in Mbps
 DelayMM1 = MM1DelayCalc(lambda, C);
-DelayMG1 =  MG1DelayCacl(lambda, C);
+DelayMG1 =  MG1DelayCalc(lambda, C);
 end
 
 function out= GeneratePacketSize()
@@ -106,7 +106,7 @@ function W = MM1DelayCalc(lambda, C)
     W = (1/(u-lambda))*1000;
 end
 
-function W =  MG1DelayCacl(lambda, C)
+function W =  MG1DelayCalc(lambda, C)
     bpp = 8;   
     n = 65:1517;
     %itv = (1517+65)/2;
@@ -114,7 +114,6 @@ function W =  MG1DelayCacl(lambda, C)
     for i = 1:size(n,2)
         sum = sum + (n(i)*bpp)*(0.62/(1518-65));
     end
-    disp(sum)
     sum2 = 0;
     for i = 1:size(n,2)
         sum2 = sum2 + ((n(i)*bpp)/(C*10^6))^2*(0.62/(1518-65));
