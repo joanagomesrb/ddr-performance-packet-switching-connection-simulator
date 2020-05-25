@@ -1,9 +1,9 @@
 % INPUT PARAMETERS:
 lambda = 200; %  lambda - packet rate (packets/sec)
 C = 2;        %  C      - link bandwidth (Mbps)
-f = 10000;     %  f      - queue size (Bytes)
-P = 100000  ;    %  P      - number of packets (stopping criterium)
-nvoip = 5;
+f = 100000;     %  f      - queue size (Bytes)
+P = 100000   ;    %  P      - number of packets (stopping criterium)
+nvoip = 15;
 
 % run simulator parameters
 n_times = 10;
@@ -20,11 +20,12 @@ result_APDvoip = zeros(1, n_times);
 result_MPvoip = zeros(1, n_times);
 
 % theoretical MG1 initialization
-result_MG1 = zeros(1, n_times);
+result_MG1_voip = zeros(1, n_times);
+result_MG1_data = zeros(1, n_times);
 
 % actual run simulator n times
 for i = 1:n_times
-    [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip, DelayMG1] = simulator3(lambda,C,f,P,nvoip);
+    [PL , APD , MPD , TT, PLvoip, APDvoip, MPDvoip, DelayMG1_voip, DelayMG1_data] = simulator3(lambda,C,f,P,nvoip);
     result_PL(i) = PL;
     result_APD(i) = APD;
     result_MP(i) = MPD;
@@ -34,7 +35,8 @@ for i = 1:n_times
     result_APDvoip = APDvoip;
     result_MPvoip = MPDvoip;
     
-    result_MG1(i) = DelayMG1;
+    result_MG1_voip(i) = DelayMG1_voip;
+    result_MG1_data(i) = DelayMG1_data;
 end
 
 % 90% confidence interval PL
@@ -67,12 +69,14 @@ media_TT = mean(result_TT);
 term_TT = norminv(1-alfa/2)*sqrt(var(result_TT)/n_times);
 
 % MG1
-media_mg1 = mean(result_MG1);
+media_mg1_voip = mean(result_MG1_voip);
+media_mg1_data = mean(result_MG1_data);
 
 % print results
 fprintf('result PL and PLvoip = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n', media_PL, term_PL, media_PLvoip, term_PLvoip)
 fprintf('result APD and APDvoip = %6.3f +/- %6.3f /  %6.3f +/- %6.3f\n', media_APD, term_APD, media_APDvoip, term_APDvoip)
 fprintf('result MP and MPvoip = %6.3f +/- %6.3f / %6.3f +/- %6.3f\n', media_MP, term_MP, media_MPvoip, term_MPvoip)
 fprintf('result TT = %6.3f +/- %6.3f\n', media_TT, term_TT)
-fprintf('result MG1 = %6.3f \n', media_mg1)
+fprintf('result MG1 VoIP = %6.3f \n', media_mg1_voip)
+fprintf('result MG1 Data = %6.3f \n', media_mg1_data)
 
