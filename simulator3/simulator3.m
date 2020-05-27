@@ -186,7 +186,8 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
     % bits)
     u1 = (C*10^6) / (mps*bpp);
     u2 = (C * 10^6)/(64*bpp*0.16 + 0.22*1518*bpp + sum);
-
+    
+    
     p_64 = 0.16;
     p_1518 = 0.22;
    
@@ -201,15 +202,14 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
     bytes_voip = 110:130;
     sum3 = 0;
     sum4 = 0;
-    for i = size(bytes_voip, 2)   
-        sum3 = sum3 + ((bytes_voip(i)*bpp)/(C*10^6))*(1/20);
-        sum4 = sum4 + ((((bytes_voip(i)*bpp)/(C*10^6))^2)*(1/20));
+    for i = 1:size(bytes_voip, 2)
+        sum3 = sum3 + (((bytes_voip(i))*bpp/(C*10^6)))*(1/21);
+        sum4 = sum4 + (((bytes_voip(i))*bpp/(C*10^6))^2)*(1/21);
     end
+    
+    
     ES_voip = sum3;
     ES2_voip = sum4;
-    
-    
-    %ES_voip = 1/u1;
     
     p1 = (lambda1/u1);
     p2 = (lambda2/u2);
