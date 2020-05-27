@@ -169,10 +169,10 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
     % medium packet size VoIP
     mps = (110+130)/2;
     % average time between arrivals 
-    avg_time = (16+22)/2; % in miliseconds
+    %avg_time = (16+22)/2; % in miliseconds
 
     % lambda --> arrival rate
-    lambda1 = (1/(avg_time*10^-3)) *  n; % in seconds
+    lambda1 = (1/(20*10^-3)) *  n; % in seconds
     
     % ESs data
     sum = 0;
@@ -186,7 +186,6 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
     % bits)
     u1 = (C*10^6) / (mps*bpp);
     u2 = (C * 10^6)/(64*bpp*0.16 + 0.22*1518*bpp + sum);
-    
     
     p_64 = 0.16;
     p_1518 = 0.22;
@@ -206,8 +205,7 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
         sum3 = sum3 + (((bytes_voip(i))*bpp/(C*10^6)))*(1/21);
         sum4 = sum4 + (((bytes_voip(i))*bpp/(C*10^6))^2)*(1/21);
     end
-    
-    
+   
     ES_voip = sum3;
     ES2_voip = sum4;
     
