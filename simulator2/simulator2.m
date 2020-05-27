@@ -45,6 +45,7 @@ Clock= 0;
 
 % Initializing the List of Events with the first ARRIVAL:
 EventList = [ARRIVAL , Clock + exprnd(1/lambda) , GeneratePacketSize() , 0, DATA];
+
 for i=1:n
     EventList = [EventList; ARRIVAL, Clock + 0.02*rand(), GeneratePacketSizeVoip(), 0 , VOIP];
 end 

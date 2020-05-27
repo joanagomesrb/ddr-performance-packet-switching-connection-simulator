@@ -163,18 +163,16 @@ end
 function [W1, W2] = MG1_Calc(lambda, C, n)
         
     % variable initialization
-    lambda1 = lambda;
+    lambda2 = lambda;
     bpp = 8;  
     nr_bytes_data = 65:1517;
-    p_64 = 0.16;
-    p_1518 = 0.22;
     % medium packet size VoIP
-    mps = (110+140)/2;
+    mps = (110+130)/2;
     % average time between arrivals 
     avg_time = (16+22)/2; % in miliseconds
 
     % lambda --> arrival rate
-    lambda2 = 1/(avg_time*10^-3) *  n; % in seconds
+    lambda1 = (1/(avg_time*10^-3)) *  n; % in seconds
     
     % ESs data
     sum = 0;
@@ -186,12 +184,9 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
     
     % miu --> packets per second --> connection capacity / medium packet size (in
     % bits)
-    u1 = (C * 10^6)/(64*0.16 + 0.22*1518 + sum);
-    u2 = (C*10^6) / (120*bpp);
+    u1 = (C*10^6) / (mps*bpp);
+    u2 = (C * 10^6)/(64*bpp*0.16 + 0.22*1518*bpp + sum);
 
-    p1 = (lambda1/u1);
-    p2 = (lambda2/u2);
- 
     p_64 = 0.16;
     p_1518 = 0.22;
    
@@ -206,17 +201,23 @@ function [W1, W2] = MG1_Calc(lambda, C, n)
     bytes_voip = 110:130;
     sum3 = 0;
     sum4 = 0;
-    for i = size(bytes_voip, 2)
-        sum3 = sum3 + ((bytes_voip(i)*bpp/(C*10^6))^2)*(1/20);
-        sum4 = sum4 + (bytes_voip(i)*bpp/(C*10^6))*(1/20);
+    for i = size(bytes_voip, 2)   
+        sum3 = sum3 + ((bytes_voip(i)*bpp)/(C*10^6))*(1/20);
+        sum4 = sum4 + ((((bytes_voip(i)*bpp)/(C*10^6))^2)*(1/20));
     end
-    ES2_voip = sum3;
-    ES_voip = sum4;
+    ES_voip = sum3;
+    ES2_voip = sum4;
     
-    WQ1 = ((lambda1*ES2_voip^2) + (lambda2*ES2_data^2)) / 2*(1-p1);
-    WQ2 = ((lambda1*ES2_voip^2) + (lambda2*ES2_data^2)) / 2*(1-p1)*(1-p1-p2);
+    
+    %ES_voip = 1/u1;
+    
+    p1 = (lambda1/u1);
+    p2 = (lambda2/u2);
+    
+    WQ1 = ((lambda1*ES2_voip) + (lambda2*ES2_data)) / (2*(1-p1));
+    WQ2 = ((lambda1*ES2_voip) + (lambda2*ES2_data)) / (2*(1-p1)*(1-p1-p2));
 
-    % atraso do sistema é igual ao atraso da fila de espera mais o tempo
+    % atraso do sistema ï¿½ igual ao atraso da fila de espera mais o tempo
     % que os pacotes demoram a serem transmitidos
     W1 = (WQ1 + ES_voip) * 1000;
     W2 = (WQ2 + ES_data) * 1000;
